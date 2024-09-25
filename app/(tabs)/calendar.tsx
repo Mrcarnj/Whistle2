@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, DateData } from 'react-native-calendars';
 import { format } from 'date-fns';
+import { useNavigation } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const calendarWidth = screenWidth * 0.98; // 98% of screen width
 
+// Mock data for events
+const mockEvents = {
+  '2024-09-15': { marked: true, dotColor: 'orange', description: 'Event 1' },
+  '2024-09-20': { marked: true, dotColor: 'orange', description: 'Event 2' },
+  '2024-09-25': { marked: true, dotColor: 'orange', description: 'Event 3' },
+  '2024-10-05': { marked: true, dotColor: 'orange', description: 'Event 4' },
+  '2024-10-10': { marked: true, dotColor: 'orange', description: 'Event 5' },
+  '2024-10-15': { marked: true, dotColor: 'orange', description: 'Event 6' },
+};
+
 export default function CalendarScreen() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [markedDates, setMarkedDates] = useState(mockEvents);
+  const navigation = useNavigation();
 
-  const onMonthChange = (month: { timestamp: number }) => {
+  const onMonthChange = (month: DateData) => {
     setCurrentMonth(new Date(month.timestamp));
+  };
+
+  const onDayPress = (day: DateData) => {
+    const selectedDate = day.dateString;
+    if (markedDates[selectedDate]) {
+      navigation.navigate('eventDetails' as never, { date: selectedDate, event: markedDates[selectedDate] } as never);
+    }
   };
 
   return (
@@ -18,12 +38,14 @@ export default function CalendarScreen() {
       <Calendar
         current={format(currentMonth, 'yyyy-MM-dd')}
         onMonthChange={onMonthChange}
+        onDayPress={onDayPress}
         monthFormat={'MMMM yyyy'}
         enableSwipeMonths={true}
         hideExtraDays={false}
         firstDay={0}
         showFiveWeeks={true}
         style={styles.calendar}
+        markedDates={markedDates}
         theme={{
           backgroundColor: '#ffffff',
           calendarBackground: '#ffffff',
@@ -33,11 +55,11 @@ export default function CalendarScreen() {
           todayTextColor: '#00adf5',
           dayTextColor: '#2d4150',
           textDisabledColor: '#d9e1e8',
-          dotColor: '#00adf5',
+          dotColor: 'orange',
           selectedDotColor: '#ffffff',
           arrowColor: '#00adf5',
           monthTextColor: '#2d4150',
-          indicatorColor: '#00adf5',
+          indicatorColor: 'orange',
           textDayFontWeight: '300',
           textMonthFontWeight: 'bold',
           textDayHeaderFontWeight: '300',
@@ -80,9 +102,9 @@ export default function CalendarScreen() {
               backgroundColor: 'rgba(255, 255, 255, 0)',
             },
             today: {
-                borderWidth: 3,
-                borderRadius: 0,
-              },
+              borderWidth: 3,
+              borderRadius: 0,
+            },
           },
         }}
       />
@@ -91,14 +113,14 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    calendar: {
-      width: screenWidth,
-      borderWidth: 0,
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  calendar: {
+    width: screenWidth,
+    borderWidth: 0,
+  },
+});
