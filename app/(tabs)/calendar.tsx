@@ -4,7 +4,7 @@ import { Calendar } from 'react-native-calendars';
 import { format } from 'date-fns';
 
 const screenWidth = Dimensions.get('window').width;
-const calendarWidth = screenWidth * 0.9; // 90% of screen width
+const calendarWidth = screenWidth * 0.98; // 98% of screen width
 
 export default function CalendarScreen() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -22,7 +22,7 @@ export default function CalendarScreen() {
         enableSwipeMonths={true}
         hideExtraDays={false}
         firstDay={0}
-        showSixWeeks={true}
+        showFiveWeeks={true}
         style={styles.calendar}
         theme={{
           backgroundColor: '#ffffff',
@@ -46,8 +46,8 @@ export default function CalendarScreen() {
           textDayHeaderFontSize: 12,
           'stylesheet.calendar.main': {
             week: {
-              marginTop: 5,
-              marginBottom: 5,
+              marginTop: 0,
+              marginBottom: 0,
               flexDirection: 'row',
               justifyContent: 'space-around',
             },
@@ -65,19 +65,24 @@ export default function CalendarScreen() {
           'stylesheet.day.basic': {
             base: {
               width: calendarWidth / 7,
-              height: calendarWidth / 7,
+              height: (calendarWidth * 1.4) / 6, // Adjusted for taller days
               alignItems: 'flex-start',
               justifyContent: 'flex-start',
-              paddingTop: 2,
-              paddingLeft: 2,
+              borderWidth: 0.5,
+              borderColor: '#e0e0e0',
+              paddingTop: 5,
+              paddingLeft: 5,
             },
             text: {
-              marginTop: 1,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: '300',
               color: '#2d4150',
               backgroundColor: 'rgba(255, 255, 255, 0)',
             },
+            today: {
+                borderWidth: 3,
+                borderRadius: 0,
+              },
           },
         }}
       />
@@ -86,16 +91,14 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  calendar: {
-    width: calendarWidth,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 10,
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: '#ffffff',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    calendar: {
+      width: screenWidth,
+      borderWidth: 0,
+    },
+  });
