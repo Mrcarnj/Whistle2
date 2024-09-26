@@ -9,6 +9,8 @@ export default function RootLayout() {
         options={{
           title: 'Event Details',
           headerBackTitle: 'Back',
+          gestureEnabled: true,
+          animation: 'slide_from_right',
         }} 
       />
     </Stack>
