@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { mockEvents } from './calendar';
 
 const getTodayEvent = () => {
@@ -35,7 +36,8 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
       <Text style={styles.title}>Today</Text>
       {todayEvent ? (
         <View style={styles.eventItem}>
@@ -56,52 +58,73 @@ export default function HomeScreen() {
       <View style={styles.separator} />
       <Text style={styles.title}>External Links</Text>
       {externalLinks.map((link, index) => (
-        <TouchableOpacity key={index} onPress={() => openLink(link.url)}>
+        <TouchableOpacity key={index} onPress={() => openLink(link.url)} style={styles.linkButton}>
           <Text style={styles.link}>{link.title}</Text>
         </TouchableOpacity>
       ))}
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  scrollView: {
+    flex: 1,
+  },
   container: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'stretch',
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 10,
-    alignSelf: 'flex-start',
+    marginBottom: 15,
+    color: '#fff',
   },
   eventItem: {
-    width: '100%',
-    marginBottom: 10,
+    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
   },
   eventDate: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#ff6600',
+    marginBottom: 5,
   },
   eventDescription: {
     fontSize: 16,
+    color: '#fff',
   },
   separator: {
-    marginVertical: 20,
+    marginVertical: 25,
     height: 1,
     width: '100%',
-    backgroundColor: '#ccc',
+    backgroundColor: '#333',
+  },
+  linkButton: {
+    backgroundColor: '#ff6600',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+    alignItems: 'center',
   },
   link: {
     fontSize: 18,
-    color: '#2e78b7',
-    marginBottom: 10,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   noEventText: {
     fontSize: 16,
     fontStyle: 'italic',
     color: '#888',
+    textAlign: 'center',
   },
 });

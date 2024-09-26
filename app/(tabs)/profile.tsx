@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
-    const [name] = useState('Mike Doe');
+  const [name] = useState('Mike Doe');
   const [currentSeasonGames, setCurrentSeasonGames] = useState('10');
   const [allTimeGames, setAllTimeGames] = useState('50');
   const [phone, setPhone] = useState('123-456-7890');
@@ -10,7 +11,8 @@ export default function ProfileScreen() {
   const [address, setAddress] = useState('123 Main St, City, State, 12345');
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
       <Image
         source={{ uri: 'https://via.placeholder.com/150' }}
         style={styles.profileImage}
@@ -30,6 +32,7 @@ export default function ProfileScreen() {
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
+          placeholderTextColor="#888"
         />
         <Text style={styles.label}>Email:</Text>
         <TextInput
@@ -37,61 +40,83 @@ export default function ProfileScreen() {
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
+          placeholderTextColor="#888"
         />
         <Text style={styles.label}>Address:</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.multilineInput]}
           value={address}
           onChangeText={setAddress}
           multiline
+          placeholderTextColor="#888"
         />
       </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  scrollView: {
+    flex: 1,
+  },
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   profileImage: {
     width: 150,
     height: 150,
     borderRadius: 75,
-    alignSelf: 'center',
-    marginBottom: 10,
+    borderWidth: 3,
+    borderColor: '#ff6600',
+    marginBottom: 20,
   },
   name: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 20,
   },
   infoSection: {
+    width: '100%',
     marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#ff6600',
     marginBottom: 5,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    borderColor: '#ff6600',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
     fontSize: 16,
+    color: '#fff',
+    backgroundColor: '#1a1a1a',
+  },
+  multilineInput: {
+    height: 100,
+    textAlignVertical: 'top',
   },
   staticText: {
-    fontSize: 16,
-    marginBottom: 10,
+    fontSize: 18,
+    marginBottom: 15,
+    color: '#fff',
   },
   separator: {
-    height: 1,
-    backgroundColor: '#ccc',
+    height: 2,
+    backgroundColor: '#ff6600',
+    width: '100%',
     marginVertical: 20,
   },
 });

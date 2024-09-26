@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar, DateData } from 'react-native-calendars';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
@@ -16,12 +17,12 @@ const calendarWidth = screenWidth * 0.98; // 98% of screen width
 
 // Mock data for events
 export const mockEvents = {
-  '2024-09-15': { marked: true, dotColor: 'orange', description: 'Event 1' },
-  '2024-09-20': { marked: true, dotColor: 'orange', description: 'Event 2' },
-  '2024-09-25': { marked: true, dotColor: 'orange', description: 'Event 3' },
-  '2024-10-05': { marked: true, dotColor: 'orange', description: 'Event 4' },
-  '2024-10-10': { marked: true, dotColor: 'orange', description: 'Event 5' },
-  '2024-10-15': { marked: true, dotColor: 'orange', description: 'Event 6' },
+  '2024-09-15': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 1' },
+  '2024-09-20': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 2' },
+  '2024-09-25': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 3' },
+  '2024-10-05': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 4' },
+  '2024-10-10': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 5' },
+  '2024-10-15': { customStyles: { container: { backgroundColor: '#ff6600' } }, description: 'Event 6' },
 };
 
 export default function CalendarScreen() {
@@ -41,7 +42,8 @@ export default function CalendarScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
       <Calendar
         current={format(currentMonth, 'yyyy-MM-dd')}
         onMonthChange={onMonthChange}
@@ -52,17 +54,22 @@ export default function CalendarScreen() {
         firstDay={0}
         showFiveWeeks={true}
         style={styles.calendar}
+        markingType={'custom'}
         markedDates={mockEvents}
         theme={calendarTheme}
       />
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -73,25 +80,23 @@ const styles = StyleSheet.create({
 });
 
 const calendarTheme = {
-  backgroundColor: '#ffffff',
-  calendarBackground: '#ffffff',
-  textSectionTitleColor: '#b6c1cd',
-  selectedDayBackgroundColor: '#00adf5',
+  backgroundColor: '#000000',
+  calendarBackground: '#000000',
+  textSectionTitleColor: '#ffffff',
+  selectedDayBackgroundColor: '#ff6600',
   selectedDayTextColor: '#ffffff',
-  todayTextColor: '#00adf5',
-  dayTextColor: '#2d4150',
-  textDisabledColor: '#d9e1e8',
-  dotColor: 'orange',
-  selectedDotColor: '#ffffff',
-  arrowColor: '#00adf5',
-  monthTextColor: '#2d4150',
-  indicatorColor: 'orange',
+  todayTextColor: '#ff6600',
+  dayTextColor: '#ffffff',
+  textDisabledColor: '#444444',
+  arrowColor: '#ff6600',
+  monthTextColor: '#ffffff',
+  indicatorColor: '#ff6600',
   textDayFontWeight: '300',
   textMonthFontWeight: 'bold',
   textDayHeaderFontWeight: '300',
-  textDayFontSize: 14,
-  textMonthFontSize: 18,
-  textDayHeaderFontSize: 12,
+  textDayFontSize: 16,
+  textMonthFontSize: 20,
+  textDayHeaderFontSize: 14,
   'stylesheet.calendar.main': {
     week: {
       marginTop: 0,
@@ -117,20 +122,22 @@ const calendarTheme = {
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       borderWidth: 0.5,
-      borderColor: '#e0e0e0',
+      borderColor: '#333333',
       paddingTop: 5,
-      paddingLeft: 5,
+    paddingLeft: 5,
     },
     text: {
       fontSize: 16,
       fontWeight: '300',
-      color: '#2d4150',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
+      color: '#ffffff',
+      backgroundColor: 'transparent',
     },
     today: {
+      borderColor: '#ffffff',
       borderWidth: 2,
-      borderRadius: 0,
-      borderColor: '#000000',
+    },
+    todayText: {
+      fontWeight: 'bold',
     },
   },
 };
