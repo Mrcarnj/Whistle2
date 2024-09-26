@@ -15,7 +15,7 @@ const screenWidth = Dimensions.get('window').width;
 const calendarWidth = screenWidth * 0.98; // 98% of screen width
 
 // Mock data for events
-const mockEvents = {
+export const mockEvents = {
   '2024-09-15': { marked: true, dotColor: 'orange', description: 'Event 1' },
   '2024-09-20': { marked: true, dotColor: 'orange', description: 'Event 2' },
   '2024-09-25': { marked: true, dotColor: 'orange', description: 'Event 3' },
